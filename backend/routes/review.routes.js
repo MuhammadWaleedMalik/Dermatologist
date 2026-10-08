@@ -41,7 +41,6 @@ const submitRules = [
     .trim()
     .isLength({ min: 10, max: 3000 })
     .withMessage('Your review must be between 10 and 3000 characters'),
-  body('text').optional().isString().trim().isLength({ max: 3000 }),
 ]
 
 // ---- Public review endpoints -------------------------------------------

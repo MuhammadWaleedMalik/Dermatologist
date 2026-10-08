@@ -56,6 +56,6 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true },
 )
 
-reviewSchema.index({ approved: 1, date: -1 })
+reviewSchema.index({ approved: 1, createdAt: -1 })
 
 export const Review = mongoose.model('Review', reviewSchema)

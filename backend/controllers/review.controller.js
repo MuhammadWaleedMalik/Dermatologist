@@ -40,7 +40,7 @@ export const listApprovedReviews = asyncHandler(async (req, res) => {
   const filter = { approved: true }
   if (req.query.treatment) filter.treatment = req.query.treatment
 
-  const reviews = await Review.find(filter).sort({ date: -1, createdAt: -1 }).lean()
+  const reviews = await Review.find(filter).sort({ createdAt: -1 }).lean()
   res.json({ success: true, data: toClientList(reviews).map(toPublicReview) })
 })
 
@@ -49,7 +49,7 @@ export const listApprovedReviews = asyncHandler(async (req, res) => {
  * Every review, approved or not.
  */
 export const listAllReviews = asyncHandler(async (_req, res) => {
-  const reviews = await Review.find({}).sort({ date: -1, createdAt: -1 }).lean()
+  const reviews = await Review.find({}).sort({ createdAt: -1 }).lean()
   res.json({ success: true, data: toClientList(reviews) })
 })
 
@@ -71,17 +71,13 @@ export const getReview = asyncHandler(async (req, res) => {
  * `image` is rejected — public visitors do not attach photos.
  */
 export const submitReview = asyncHandler(async (req, res) => {
-  const payload = pickWritable(req.body)
-
-  // The public form field is `review`; the database stores `text`.
-  const text = String(req.body.review ?? req.body.text ?? '').trim()
-
-  delete payload.approved
-  delete payload.text
-
   const review = await Review.create({
-    ...payload,
-    text,
+    name: req.body.name,
+    email: req.body.email || '',
+    treatment: req.body.treatment,
+    rating: Number(req.body.rating),
+    // The public form field is `review`; the database stores `text`.
+    text: String(req.body.review).trim(),
     approved: true,
     image: '',
   })
