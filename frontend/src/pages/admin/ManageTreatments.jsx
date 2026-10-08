@@ -75,8 +75,14 @@ export default function ManageTreatments() {
   }, [treatments])
 
   const handleDelete = useCallback(async (id) => {
-    await deleteTreatment(id)
-    setTreatments((prev) => prev.filter((t) => t.id !== id))
+    try {
+      await deleteTreatment(id)
+      setTreatments((prev) => prev.filter((t) => t.id !== id))
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not delete the treatment.')
+      throw err
+    }
   }, [])
 
   const handleTogglePublish = useCallback(async (id) => {
@@ -86,6 +92,7 @@ export default function ManageTreatments() {
     try {
       const saved = await toggleTreatmentPublish(id, !current.published)
       setTreatments((prev) => prev.map((t) => (t.id === id ? { ...t, published: saved.published } : t)))
+      setError('')
     } catch (err) {
       setError(err.message || 'Could not update the publish status.')
     }

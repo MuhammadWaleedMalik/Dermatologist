@@ -1,6 +1,6 @@
 import SEO from '../components/common/SEO'
 import PageTransition from '../components/common/PageTransition'
-import HeroSlider from '../components/home/HeroSlider'
+import HeroSection from '../components/home/HeroSection'
 import AboutSection from '../components/home/AboutSection'
 import WhyChooseUs from '../components/home/WhyChooseUs'
 import FeaturedServices from '../components/home/FeaturedServices'
@@ -11,11 +11,12 @@ export default function Home() {
   return (
     <PageTransition>
       <SEO
-        title="Premium Skin & Hair Treatments"
-        description="Dr Salman Skin & Hair Clinic offers premium hair transplant, laser treatments, PRP therapy, and advanced skin care. Book your appointment today."
+        title="Dr Salman Skin & Hair Clinic"
+        description="Welcome to SalmanGuzellik. Güzellik means beauty in Turkish. Meet Dr Salman and explore skin, hair and aesthetic care at Dr Salman Skin & Hair Clinic."
         path="/"
+        image="/pic1.jpeg"
       />
-      <HeroSlider />
+      <HeroSection />
       <AboutSection />
       <WhyChooseUs />
       <FeaturedServices />

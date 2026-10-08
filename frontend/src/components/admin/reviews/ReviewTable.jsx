@@ -4,6 +4,7 @@ import { FiEdit2, FiTrash2, FiCheckCircle, FiXCircle, FiChevronLeft, FiChevronRi
 import StatusBadge from '../common/StatusBadge'
 import SearchBar from '../common/SearchBar'
 import ConfirmDialog from '../common/ConfirmDialog'
+import LazyImage from '../../common/LazyImage'
 
 const ITEMS_PER_PAGE = 6
 
@@ -47,9 +48,9 @@ export default function ReviewTable({ reviews, onEdit, onDelete, onToggleApprova
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (deleteTarget) {
-      onDelete(deleteTarget.id)
+      await onDelete(deleteTarget.id)
       setDeleteTarget(null)
     }
   }
@@ -108,7 +109,12 @@ export default function ReviewTable({ reviews, onEdit, onDelete, onToggleApprova
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {r.image && (
-                          <img src={r.image} alt={r.name} className="w-9 h-9 rounded-full object-cover shrink-0" />
+                          <LazyImage
+                            src={r.image}
+                            alt={r.name}
+                            className="w-9 h-9 rounded-full object-cover"
+                            wrapperClassName="w-9 h-9 rounded-full shrink-0"
+                          />
                         )}
                         <div className="min-w-0">
                           <p className="text-sm font-semibold text-primary truncate">{r.name}</p>
@@ -153,7 +159,12 @@ export default function ReviewTable({ reviews, onEdit, onDelete, onToggleApprova
               <motion.div key={r.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-xl border border-accent p-4">
                 <div className="flex items-start gap-3 mb-3">
                   {r.image && (
-                    <img src={r.image} alt={r.name} className="w-11 h-11 rounded-full object-cover shrink-0" />
+                    <LazyImage
+                      src={r.image}
+                      alt={r.name}
+                      className="w-11 h-11 rounded-full object-cover"
+                      wrapperClassName="w-11 h-11 rounded-full shrink-0"
+                    />
                   )}
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-semibold text-primary truncate">{r.name}</p>

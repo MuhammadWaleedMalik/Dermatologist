@@ -6,9 +6,11 @@ import { MdCalendarToday } from 'react-icons/md'
 import Button from '../common/Button'
 import { getWhatsAppUrl } from '../../utils/whatsapp'
 import { serviceCategories } from '../../data/services'
+import { siteConfig } from '../../data/siteConfig'
 
 const navLinks = [
   { name: 'Home', path: '/' },
+  { name: 'Dr Salman', path: '/#about' },
   { name: 'Before & After', path: '/before-after' },
   { name: 'Blogs', path: '/blogs' },
   { name: 'Reviews', path: '/reviews' },
@@ -31,7 +33,7 @@ export default function Navbar() {
     setIsOpen(false)
     setServicesOpen(false)
     setMobileServicesOpen(false)
-  }, [location.pathname])
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : ''
@@ -50,24 +52,32 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-lg py-2' : 'bg-transparent py-4'
+        isScrolled || isOpen ? 'bg-white/95 backdrop-blur-lg shadow-lg py-2' : 'bg-transparent py-4'
       }`}
     >
       <nav className="container-clinic px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 shrink-0" aria-label="Dr Salman Clinic Home">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold" aria-label="SalmanGuzellik — Dr Salman Clinic home">
             <img
               src="/logo.png"
               alt="Dr Salman Skin & Hair Clinic Logo"
-              className={`h-12 sm:h-14 w-auto object-contain transition-all`}
+              className="h-10 sm:h-12 w-auto object-contain transition-all"
               width="56"
               height="56"
             />
+            <span className="flex flex-col gap-1">
+              <span className={`font-serif text-xl leading-none tracking-tight sm:text-2xl ${isScrolled || isOpen ? 'text-primary' : 'text-white'}`}>
+                Salman<span className="text-gold">Guzellik</span>
+              </span>
+              <span className={`text-[8px] uppercase tracking-[0.16em] sm:text-[9px] ${isScrolled || isOpen ? 'text-primary/65' : 'text-white/65'}`}>
+                {siteConfig.name}
+              </span>
+            </span>
           </Link>
 
-          <ul className="hidden lg:flex items-center gap-1">
+          <ul className="hidden xl:flex items-center gap-1">
             <li>
-              <Link to="/" className={`px-4 py-2 rounded-lg font-medium transition-colors ${linkClass(location.pathname === '/')}`}>
+              <Link to="/" className={`px-4 py-2 rounded-lg font-medium transition-colors ${linkClass(location.pathname === '/' && !location.hash)}`}>
                 Home
               </Link>
             </li>
@@ -129,7 +139,7 @@ export default function Navbar() {
               <li key={link.path}>
                 <Link
                   to={link.path}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${linkClass(location.pathname === link.path)}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${linkClass(`${location.pathname}${location.hash}` === link.path)}`}
                 >
                   {link.name}
                 </Link>
@@ -137,7 +147,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <Button href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" variant="gold" size="sm">
               <MdCalendarToday className="w-4 h-4" />
               Book Appointment
@@ -146,7 +156,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            className={`lg:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center ${menuIconClass}`}
+            className={`xl:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center ${menuIconClass}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
@@ -161,7 +171,7 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden overflow-hidden"
+              className="xl:hidden overflow-hidden"
             >
               <div className="py-4 space-y-1 bg-white/95 backdrop-blur-lg rounded-2xl mt-3 shadow-xl border border-accent px-4">
                 <Link to="/" className="block px-4 py-3 rounded-lg font-medium text-primary hover:bg-accent min-h-[44px]">
@@ -211,6 +221,7 @@ export default function Navbar() {
                   <Link
                     key={link.path}
                     to={link.path}
+                    onClick={() => setIsOpen(false)}
                     className="block px-4 py-3 rounded-lg font-medium text-primary hover:bg-accent min-h-[44px]"
                   >
                     {link.name}

@@ -58,21 +58,32 @@ export default function ManageReviews() {
   }, [reviewList])
 
   const handleDelete = useCallback(async (id) => {
-    await deleteReview(id)
-    setReviewList((prev) => prev.filter((r) => r.id !== id))
+    try {
+      await deleteReview(id)
+      setReviewList((prev) => prev.filter((r) => r.id !== id))
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not delete the review.')
+      throw err
+    }
   }, [])
 
   const handleToggleApproval = useCallback(async (id) => {
     const current = reviewList.find((r) => r.id === id)
     const next = current ? !current.approved : false
-    if (next) {
-      await approveReview(id)
-    } else {
-      await hideReview(id)
+    try {
+      if (next) {
+        await approveReview(id)
+      } else {
+        await hideReview(id)
+      }
+      setReviewList((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, approved: next } : r))
+      )
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not update the review status.')
     }
-    setReviewList((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, approved: next } : r))
-    )
   }, [reviewList])
 
   const approvedCount = reviewList.filter((r) => r.approved).length

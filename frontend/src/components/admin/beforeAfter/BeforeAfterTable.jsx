@@ -30,9 +30,9 @@ export default function BeforeAfterTable({ cases, categories, onEdit, onDelete, 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (deleteTarget) {
-      onDelete(deleteTarget.id)
+      await onDelete(deleteTarget.id)
       setDeleteTarget(null)
     }
   }

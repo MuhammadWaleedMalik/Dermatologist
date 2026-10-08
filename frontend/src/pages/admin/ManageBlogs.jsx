@@ -60,17 +60,28 @@ export default function ManageBlogs() {
   }, [blogs])
 
   const handleDelete = useCallback(async (id) => {
-    await deleteBlog(id)
-    setBlogs((prev) => prev.filter((b) => b.id !== id))
+    try {
+      await deleteBlog(id)
+      setBlogs((prev) => prev.filter((b) => b.id !== id))
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not delete the blog post.')
+      throw err
+    }
   }, [])
 
   const handleTogglePublish = useCallback(async (id) => {
     const current = blogs.find((b) => b.id === id)
     const nextPublished = current ? !current.published : false
-    await toggleBlogPublish(id, nextPublished)
-    setBlogs((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, published: nextPublished } : b))
-    )
+    try {
+      await toggleBlogPublish(id, nextPublished)
+      setBlogs((prev) =>
+        prev.map((b) => (b.id === id ? { ...b, published: nextPublished } : b))
+      )
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not update the publish status.')
+    }
   }, [blogs])
 
   const publishedCount = blogs.filter((b) => b.published).length

@@ -69,8 +69,14 @@ export default function ManageBeforeAfter() {
   }, [cases])
 
   const handleDelete = useCallback(async (id) => {
-    await deleteBeforeAfter(id)
-    setCases((prev) => prev.filter((c) => c.id !== id))
+    try {
+      await deleteBeforeAfter(id)
+      setCases((prev) => prev.filter((c) => c.id !== id))
+      setError('')
+    } catch (err) {
+      setError(err.message || 'Could not delete the gallery entry.')
+      throw err
+    }
   }, [])
 
   const handleTogglePublish = useCallback(async (id) => {
@@ -80,6 +86,7 @@ export default function ManageBeforeAfter() {
     try {
       const saved = await toggleBeforeAfterPublish(id, !current.published)
       setCases((prev) => prev.map((c) => (c.id === id ? { ...c, published: saved.published } : c)))
+      setError('')
     } catch (err) {
       setError(err.message || 'Could not update the publish status.')
     }

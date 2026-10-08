@@ -9,8 +9,8 @@ export default function SEO({
   type = 'website',
 }) {
   const fullTitle = title
-    ? `${title} | ${siteConfig.name}`
-    : `${siteConfig.name} | Premium Skin & Hair Treatments`
+    ? `${title} | ${siteConfig.brandName}`
+    : `${siteConfig.brandName} | ${siteConfig.name}`
   const desc = description || siteConfig.tagline
   const url = `${siteConfig.url}${path}`
   const imageUrl = image.startsWith('http') ? image : `${siteConfig.url}${image}`
@@ -19,6 +19,7 @@ export default function SEO({
     '@context': 'https://schema.org',
     '@type': 'MedicalClinic',
     name: siteConfig.name,
+    alternateName: siteConfig.brandName,
     description: desc,
     url: siteConfig.url,
     telephone: siteConfig.phone,
@@ -45,7 +46,7 @@ export default function SEO({
       <meta property="og:description" content={desc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={imageUrl} />
-      <meta property="og:site_name" content={siteConfig.name} />
+      <meta property="og:site_name" content={siteConfig.brandName} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />

@@ -49,8 +49,12 @@ export default function Footer() {
                 height="80"
                 loading="lazy"
               />
+              <p className="mb-3 font-serif text-3xl text-white">
+                Salman<span className="text-gold-light">Guzellik</span>
+              </p>
               <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-sm">
-                Premium skin and hair aesthetic clinic offering advanced treatments with certified specialists and modern technology.
+                <span lang="tr" className="text-gold-light">Güzellik</span> means beauty in Turkish.
+                {' '}Discover a personal approach to skin, hair and aesthetic care with Dr Salman.
               </p>
               <div className="space-y-2 text-sm text-white/70">
                 <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-2 hover:text-gold transition-colors">
@@ -62,15 +66,15 @@ export default function Footer() {
                   {siteConfig.email}
                 </a>
                 <a
-  href="https://maps.app.goo.gl/YJtNvP6cugZe7q8P9"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="View clinic location on Google Maps"
-  className="flex items-start gap-2 text-white/70 hover:text-gold transition-colors cursor-pointer"
->
-  <MdLocationOn className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-  <span>{siteConfig.address}</span>
-</a>
+                  href={siteConfig.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View clinic location on Google Maps"
+                  className="flex items-start gap-2 text-white/70 hover:text-gold transition-colors cursor-pointer"
+                >
+                  <MdLocationOn className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+                  <span>{siteConfig.address}</span>
+                </a>
               </div>
             </div>
 
